@@ -1,0 +1,14 @@
+
+# $KAFKA_ROOT = kafka bin folder
+# toJava8 = convert to java 8
+
+alias go-kafkaroot='cd $KAFKA_ROOT'
+alias run-zookeeper='toJava8; go-kafkaroot; ./zookeeper-server-start.sh ../config/zookeeper.properties'
+alias run-kafka='toJava8; go-kafkaroot; ./kafka-server-start.sh ../config/server.properties'
+alias list-topic='toJava8; go-kafkaroot; ./kafka-topics.sh --list --zookeeper localhost:2181'
+
+build-topic(){ toJava8 && go-kafkaroot && ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic "$@";}
+populatedatatopic(){ toJava8 && go-kafkaroot && ./kafka-console-producer.sh --broker-list localhost:9092 --topic "$@";}
+listentopic(){ toJava8 && go-kafkaroot && ./kafka-console-consumer.sh --zookeeper localhost:2181 --topic "$@" --from-beginning;}
+deletetopic(){ toJava8 && go-kafkaroot && ./kafka-run-class.sh kafka.admin.DeleteTopicCommand --zookeeper localhost:2181 --topic "$@";}
+

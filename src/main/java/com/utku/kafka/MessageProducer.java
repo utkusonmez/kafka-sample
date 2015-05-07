@@ -12,6 +12,8 @@ public class MessageProducer {
     private static Properties props = new Properties();
     private static Producer<String, String> producer;
 
+    private static final String TOPIC = "kafkatopic";
+
     static {
         props.put("metadata.broker.list", "localhost:9092");
         props.put("serializer.class", "kafka.serializer.StringEncoder");
@@ -19,8 +21,6 @@ public class MessageProducer {
         ProducerConfig config = new ProducerConfig(props);
         producer = new Producer<String, String>(config);
     }
-
-    private static final String TOPIC = "kafkatopic";
 
     public static void main(String[] args) {
         String message = RandomStringUtils.randomAlphabetic(10);
